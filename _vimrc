@@ -45,7 +45,9 @@ endfunction
 call plug#begin('$VIM/plugged')
 
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'  " It's turned off for lacking the speed to
+"write. If you want to check the syntax when saving, delete the description
+"mark.
 "Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/vim-easy-align'
@@ -237,8 +239,8 @@ function SetPythonFile()
         inoremap <F5> <ESC> :w <CR> : let @0=expand('%') <CR> : term <CR> python <C-_>"0 <CR>
         map <F5> :w <CR> : let @0=expand('%') <CR> : term <CR> python <C-_>"0 <CR>
     else
-        inoremap <F5> <ESC> :w <CR> :python %<CR>
-        map <F5> :w <CR> :python %<CR>
+        inoremap <F5> <ESC> :w <CR> :!python %<CR>
+        map <F5> :w <CR> :!python %<CR>
     endif
     inoremap <C-F5> <ESC> :w<CR> : python %<CR>
     map <C-F5> :w<CR> : python %<CR>
