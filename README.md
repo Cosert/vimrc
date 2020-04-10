@@ -1,6 +1,6 @@
 # My vimrc profile
 
-##Instructions
+## Instructions
 
 - Copy "vimrc" to your original "vimrc" path ( If you are using Windows, your public vimrc file shoule be in the folder which you installed Vim. Else if you're using Linux, you should turn to change /etc/vim/vimrc or /etc/vimrc ). 
 - Move "plug.vim"(Author of Vim-Plug: [junegunn](https://github.com/junegunn/vim-plug)) to /vim/vimxx/autoload/ (vimxx means your current using vim version). 
