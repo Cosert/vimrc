@@ -45,16 +45,16 @@ endfunction
 call plug#begin('$VIM/plugged')
 
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
-"Plug 'scrooloose/syntastic'  " It's turned off for lacking the speed to
-"write. If you want to check the syntax when saving, delete the description
-"mark.
+"Plug 'scrooloose/syntastic' { 'for': 'Python'}
 "Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/vim-easy-align'
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
 Plug 'luochen1990/rainbow'
+Plug 'kien/ctrlp.vim'
 Plug 'Shougo/vimshell'
 Plug 'flazz/vim-colorschemes'
 Plug 'tomasr/molokai' | Plug 'altercation/solarized'
@@ -69,6 +69,19 @@ filetype plugin indent on
 let g:airline_theme='molokai'
 let g:airline_powerline_fonts = 1
 let g:rainbow_active = 1
+
+"NerdTree 
+let NERDTreeQuitOnOpen = 0
+let NERDChristmasTree=1
+map <leader>f :NERDTreeToggle<CR>
+let NERDTreeMinimalUI=1
+let NERDTreeWinSize=25
+
+"Ctrlp
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
 
 if has('gui_running')
     if has("win64")
@@ -139,6 +152,7 @@ endif
 syntax on
 filetype plugin indent on
 autocmd BufNewFile,BufRead *.cpp exec "call SetCppFile()"
+autocmd BufNewFile,BufRead *.cc exec "call SetCppFile()"
 autocmd BufNewFile,BufRead *.c exec "call SetCppFile()"
 autocmd BufNewFile,BufRead *.h exec "call SetCppFile()"
 autocmd BufNewFile,Bufread *.py exec "call SetPythonFile()"
@@ -236,14 +250,14 @@ function SetPythonFile()
     inoremap : : <CR>
     
     if has('gui_running')
-        inoremap <F5> <ESC> :w <CR> : let @0=expand('%') <CR> : term <CR> python <C-_>"0 <CR>
         map <F5> :w <CR> : let @0=expand('%') <CR> : term <CR> python <C-_>"0 <CR>
+        inoremap <F5> <ESC> :w <CR> : let @0=expand('%') <CR> : term <CR> python <C-_>"0 <CR>
     else
-        inoremap <F5> <ESC> :w <CR> :!python %<CR>
-        map <F5> :w <CR> :!python %<CR>
+        map <F5> :w <CR> :!python % <CR>
+        inoremap <F5> <ESC> :w <CR> :!python % <CR>
     endif
-    inoremap <C-F5> <ESC> :w<CR> : python %<CR>
-    map <C-F5> :w<CR> : python %<CR>
+    inoremap <C-F5> <ESC> :w<CR> : !python %<CR>
+    map <C-F5> :w<CR> : !python %<CR>
     map <F6> <ESC> : call Compile()<CR>
     "map <C-F6> <ESC> : call Run()<CR>
 
@@ -255,8 +269,7 @@ function SetGoFile()
 endfunction
 
 function Compile()
-    exec "w"
-
+    
     if &filetype == 'cpp'
         set makeprg=g++\ %\ -o\ %<.l\ -g\ -std=c++17\ -O2\ -Wall\ -Wextra\ -Wconversion
     elseif &filetype == 'c'
@@ -265,6 +278,7 @@ function Compile()
         set makeprg=pyinstaller\ -F\ %
     endif
 
+    exec "w"
     exec "make"
 endfunction
 
@@ -318,5 +332,6 @@ function! ToggleQuickfixList()
     wincmd p
   endif
 endfunction
+
 
 
