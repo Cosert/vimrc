@@ -271,10 +271,10 @@ endfunction
 function Compile()
     
     if &filetype == 'cpp'
-        set makeprg=g++\ %\ -o\ %<.l\ -g\ -std=c++17\ -O2\ -Wall\ -Wextra\ -Wconversion
+        set makeprg=g++\ %\ -o\ %<.l\ -g\ -std=c++17\ -O2\ -Wall\ -Wextra\ -Wconversion\ -DLOCAL_TEST
     elseif &filetype == 'c'
         set makeprg=gcc\ %\ -o\ %<.l\ -g\ -O2\ -Wall\ -Wextra\ -Wconversion
-    elseif &filetype == 'py'
+    elseif &filetype == 'python'
         set makeprg=pyinstaller\ -F\ %
     endif
 
