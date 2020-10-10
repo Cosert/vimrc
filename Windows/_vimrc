@@ -124,7 +124,6 @@ set cin
 set autoindent
 "set cursorline
 set gcr+=a:blinkon0
-set guifont=Consolas:h17
 
 noremap j gj
 noremap gj j
@@ -144,11 +143,6 @@ tnoremap <C-O> <BS>
 
 
 
-if has('gui_running')
-    set lines=40 columns=80
-    set guioptions-=T
-endif
-
 syntax on
 filetype plugin indent on
 autocmd BufNewFile,BufRead *.cpp exec "call SetCppFile()"
@@ -160,15 +154,19 @@ autocmd BufNewFile,BufRead *.l exec "call Runexec()"
 autocmd BufNewFile,BufRead *.md exec "call SetMdFile()"
 
 if has('win32')
-    
+    set guifont=Consolas:h17
     set enc=utf-8
     set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
     set langmenu=zh_CN.UTF-8
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
     language messages zh_CN.utf-8
+    if has('gui_running')
+        set lines=40 columns=80
+        set guioptions-=T
+    endif
 elseif has('unix')
-    set guifont=Monospace\ 12
+    set guifont=Consolas\ 16
 elseif has('mac')
     set guifont=Monaco\ 12
 endif
@@ -209,10 +207,11 @@ function SetMdFile()
 endfunction
 
 function CodeEditor()
-    inoremap ' ''<ESC>i
-    inoremap " ""<ESC>i
-    inoremap ( ()<ESC>i
-    inoremap [ []<ESC>i
+    inoremap '' ''<ESC>i
+    inoremap "" ""<ESC>i
+    inoremap () ()<ESC>i
+    inoremap [] []<ESC>i
+    inoremap <> <><ESC>i
     inoremap { { <CR>} <ESC>O
     inoremap } {}<ESC>i
     inoremap ; ; 
@@ -247,17 +246,19 @@ endfunction
 
 function SetPythonFile()
     call CodeEditor()
-    inoremap : : <CR>
+    inoremap :{ : <CR>
+    inoremap { {
+    inoremap } }
     
     if has('gui_running')
-        map <F5> :w <CR> : let @0=expand('%') <CR> : term <CR> python <C-_>"0 <CR>
+        nnoremap <F5> :w <CR> : let @0=expand('%') <CR> : term <CR> python <C-_>"0 <CR>
         inoremap <F5> <ESC> :w <CR> : let @0=expand('%') <CR> : term <CR> python <C-_>"0 <CR>
     else
-        map <F5> :w <CR> :!python % <CR>
+        nnoremap <F5> :w <CR> :!python % <CR>
         inoremap <F5> <ESC> :w <CR> :!python % <CR>
     endif
-    inoremap <C-F5> <ESC> :w<CR> : !python %<CR>
     map <C-F5> :w<CR> : !python %<CR>
+    inoremap <C-F5> <ESC> :w<CR> : !python %<CR>
     map <F6> <ESC> : call Compile()<CR>
     "map <C-F6> <ESC> : call Run()<CR>
 
@@ -273,8 +274,8 @@ function Compile()
     if &filetype == 'cpp'
         set makeprg=g++\ %\ -o\ %<.l\ -g\ -std=c++17\ -O2\ -Wall\ -Wextra\ -Wconversion\ -DLOCAL_TEST
     elseif &filetype == 'c'
-        set makeprg=gcc\ %\ -o\ %<.l\ -g\ -O2\ -Wall\ -Wextra\ -Wconversion
-    elseif &filetype == 'python'
+        set makeprg=gcc\ %\ -o\ %<.l\ -g\ -std=c11\ -O2\ -Wall\ -Wextra\ -Wconversion
+    elseif &filetype == 'Python'
         set makeprg=pyinstaller\ -F\ %
     endif
 
@@ -332,6 +333,5 @@ function! ToggleQuickfixList()
     wincmd p
   endif
 endfunction
-
 
 
