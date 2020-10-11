@@ -207,7 +207,7 @@ function SetMdFile()
 endfunction
 
 function CodeEditor()
-    inoremap '' ''<ESC>i
+    inoremap ' ''<ESC>i
     inoremap "" ""<ESC>i
     inoremap () ()<ESC>i
     inoremap [] []<ESC>i
