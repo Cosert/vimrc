@@ -250,7 +250,7 @@ function SetMdFile()
     inoremap /code ``` cpp<CR>```<ESC>O
     inoremap /codec ``` cpp<CR>```<ESC>O
     inoremap /codesh ``` bash<CR>```<ESC>O
-    inoremap /psgsp @@
+    inoremap /psgsp 　　
     inoremap /a1 # 
     inoremap /a2 ## 
     inoremap /a3 ### 
@@ -263,12 +263,14 @@ endfunction
 
 function CodeEditor()
     inoremap ' ''<ESC>i
-    inoremap "" ""<ESC>i
-    inoremap () ()<ESC>i
+    inoremap " ""<ESC>i
+    inoremap () () <ESC>hi
     inoremap [] []<ESC>i
+    inoremap [' ['']<ESC>hi
+    inoremap [" [""]<ESC>hi
     inoremap <> <><ESC>i
     inoremap { { <CR>} <ESC>O
-    inoremap } {}<ESC>i
+    inoremap } {} <ESC>i
     inoremap ; ; 
     inoremap , , 
     nmap <script> <silent> <F4> :call ToggleQuickfixList()<CR>
