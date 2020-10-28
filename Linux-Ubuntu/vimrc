@@ -206,7 +206,6 @@ autocmd BufNewFile,BufRead *.c exec "call SetCppFile()"
 autocmd BufNewFile,BufRead *.h exec "call SetCppFile()"
 autocmd BufNewFile,Bufread *.py exec "call SetPythonFile()"
 autocmd BufNewFile,BufRead *.l exec "call Runexec()"
-autocmd BufNewFile,BufRead *.md exec "call SetMdFile()"
 
 if has('win32')
     set guifont=Consolas:h17
@@ -240,27 +239,6 @@ function Runexec()
     exec "q!"
 endfunction
 
-function SetMdFile()
-    inoremap // //
-    inoremap /tag - 
-    inoremap /line <CR><!-- more --><CR>
-    inoremap /date -- <ESC>i<ESC>i<ESC>i 
-    inoremap /time :: <ESC>i<ESC>i<ESC>i 
-    inoremap /link []()<ESC>i<ESC>i<ESC>i
-    inoremap /code ``` cpp<CR>```<ESC>O
-    inoremap /codec ``` cpp<CR>```<ESC>O
-    inoremap /codesh ``` bash<CR>```<ESC>O
-    inoremap /psgsp 　　
-    inoremap /a1 # 
-    inoremap /a2 ## 
-    inoremap /a3 ### 
-    inoremap /a4 #### 
-    inoremap /a5 ##### 
-    inoremap /a6 ###### 
-    inoremap /a7 ####### 
-
-endfunction
-
 function CodeEditor()
     inoremap ' ''<ESC>i
     inoremap " ""<ESC>i
@@ -275,30 +253,6 @@ function CodeEditor()
     inoremap , , 
     nmap <script> <silent> <F4> :call ToggleQuickfixList()<CR>
     
-endfunction
-
-function SetCppFile()
-    call CodeEditor()
-
-    set makeprg=g++\ %\ -o\ %<.l\ -g\ -std=c++17\ -O2\ -Wall\ -Wextra\ -Wconversion
-
-    inoremap <F5> <ESC>: call Compile() <CR>
-    map <F5> : call Compile() <CR>
-    if has('gui_running')
-        map <C-F5> : call Compile() <CR> : let @0=expand('%<.l') <CR> : term <CR><C-_>"0.l <CR>
-        inoremap <C-F5> <ESC>: call Compile() <CR> : let @0=expand("%<.l") <CR> : term <CR><C-_>"0.l <CR>
-        map <F6> : let @0=expand('%<.l') <CR> : term <CR><C-_>"0.l <CR>
-        map <C-F6> : call Run() <CR>
-    else
-        map <C-F5> : call Build_And_Run() <CR>
-        inoremap <C-F5> <ESC>: call Build_And_Run() <CR>
-        map <F6> : call Run() <CR>
-    endif
-    
-    packadd termdebug
-    map <F7> : Termdebug %<.l <CR>
-    map <F8> : call FormatCode()<CR>
-            
 endfunction
 
 function SetPythonFile()
@@ -318,12 +272,6 @@ function SetPythonFile()
     inoremap <C-F5> <ESC> :w<CR> : !python %<CR>
     map <F6> <ESC> : call Compile()<CR>
     "map <C-F6> <ESC> : call Run()<CR>
-
-endfunction
-
-function SetGoFile()
-    call CodeEditor()
-    
 endfunction
 
 function Compile()
@@ -358,36 +306,12 @@ function Build_And_Run()
     call Run()
 endfunction
 
-func! FormatCode()
-    exec "w"
-    if &filetype == 'cpp' || &filetype == 'C' || &filetype == 'h'
-        exec "!astyle --style=ansi -n %"
-        exec "e %"
-    endif
-endfunc
-
-function! s:GetBufferList() 
+function! s:GetBufferList()
   redir =>buflist 
   silent! ls 
   redir END 
   return buflist 
 endfunction
 
-function! ToggleQuickfixList()
-  for bufnum in map(filter(split(s:GetBufferList(), '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))') 
-    if bufwinnr(bufnum) != -1
-      cclocall Run() <CR>
-      return
-    endif
-  endfor
-  let winnr = winnr()
-  if exists("g:toggle_list_copen_command")
-    exec(g:toggle_list_copen_command)
-  else
-    copen
-  endif
-  if winnr() != winnr
-    wincmd p
-  endif
-endfunction
+
 
