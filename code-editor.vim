@@ -1,3 +1,4 @@
+inoremap <CR> <CR>/<BS>
 inoremap '' ''<LEFT>
 inoremap "" ""<LEFT>
 inoremap () ()<LEFT>

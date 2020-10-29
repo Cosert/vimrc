@@ -239,21 +239,7 @@ function Runexec()
     exec "q!"
 endfunction
 
-function CodeEditor()
-    inoremap ' ''<ESC>i
-    inoremap " ""<ESC>i
-    inoremap () () <ESC>hi
-    inoremap [] []<ESC>i
-    inoremap [' ['']<ESC>hi
-    inoremap [" [""]<ESC>hi
-    inoremap <> <><ESC>i
-    inoremap { { <CR>} <ESC>O
-    inoremap } {} <ESC>i
-    inoremap ; ; 
-    inoremap , , 
-    nmap <script> <silent> <F4> :call ToggleQuickfixList()<CR>
-    
-endfunction
+
 
 function SetPythonFile()
     call CodeEditor()
