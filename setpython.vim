@@ -1,26 +1,51 @@
 set autowrite
-source $VIMRC/code-editor.vim
+source $CODEMAKE/codemake.vim
+
+inoremap :<CR> : <CR>
+inoremap "<CR> """ <CR>"""<ESC>O<Up><Down>
 
 let b:PyMakeTp=0
-set makeprg=python3\ %
-"set makeprg=pypy3\ %
 nnoremap <C-F5> :call PyMakeTurn()<CR>
 nnoremap <F6> :call PyMakeTurn()<CR>
+
 if has('nvim')
     if has('unix')
         nnoremap <F5> :w<CR>:term time python3 ./%<CR>i
         inoremap <F5> <ESC>:w<CR>:term time python3 ./%<CR>i
     else
-        nnoremap <F5> :w<CR>:term python3 ./%<CR>i
-        inoremap <F5> <ESC>:w<CR>:term python3 ./%<CR>i
+        nnoremap <F5> :w<CR>:term python3 %<CR>i
+        inoremap <F5> <ESC>:w<CR>:term python3 %<CR>i
     endif
-elseif has('gui_running')
-    nnoremap <F5> :w<CR>:term python3 ./%<CR>
-    inoremap <F5> <ESC>:w<CR>:term python3 ./%<CR>
 else
-    nnoremap <F5> :make<CR>
-    inoremap <F5> <ESC>:make<CR>
+    nnoremap <F5> :call RunPy()<CR>
+    inoremap <F5> <ESC>:call RunPy()<CR>
 endif
+
+function RunPy()
+    if b:PyMakeTp==0
+        if has('unix') && has('gui_running')
+            exec "w"
+            exec "term time python3 %"
+        elseif has('gui_running')
+            exec "w"
+            exec "term python3 %"
+        else
+            set makeprg=python3\ %
+            make
+        endif
+    else
+        if has('unix') && has('gui_running')
+            exec "w"
+            exec "term time pypy3 %"
+        elseif has('gui_running')
+            exec "w"
+            exec "term pypy3 %"
+        else
+            set makeprg=pypy3\ %
+            make
+        endif
+    endif
+endfunction
 
 function PyMakeTurn()
     if b:PyMakeTp==1
@@ -32,11 +57,7 @@ function PyMakeTurn()
                 nnoremap <F5> :w<CR>:term python3 ./%<CR>i
                 inoremap <F5> <ESC>:w<CR>:term python3 ./%<CR>i
             endif
-        elseif has('gui_running')
-            nnoremap <F5> :w<CR>:term python3 ./%<CR>
-            inoremap <F5> <ESC>:w<CR>:term python3 ./%<CR>
         endif
-        set makeprg=python3\ %
         let b:PyMakeTp=0
     else
         if has('nvim')
@@ -47,11 +68,7 @@ function PyMakeTurn()
                 nnoremap <F5> :w<CR>:term pypy3 ./%<CR>i
                 inoremap <F5> <ESC>:w<CR>:term pypy3 ./%<CR>i
             endif
-        elseif has('gui_running')
-            nnoremap <F5> :w<CR>:term pypy3 ./%<CR>
-            inoremap <F5> <ESC>:w<CR>:term pypy3 ./%<CR>
         endif
-        set makeprg=pypy3\ %
         let b:PyMakeTp=1
     endif
 endfunction

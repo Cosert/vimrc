@@ -14,9 +14,10 @@ Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/vim-easy-align'
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+Plug 'https://github.com/udalov/kotlin-vim.git'
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
 Plug 'luochen1990/rainbow'
 Plug 'kien/ctrlp.vim'
 Plug 'Shougo/vimshell'
@@ -87,42 +88,11 @@ tnoremap <C-L> <Right>
 inoremap <C-O> <BS>
 tnoremap <C-O> <BS>
 
-function! FormatCode()
-    exec "w"
-    exec "!astyle --style=ansi -n %"
-    exec "e %"
-endfunction
+let $CODEMAKE = '$HOME/.config/nvim' "Change it to where your repo locates or create links of sources to the folder
 
-function! s:GetBufferList()
-    redir =>buflist 
-    silent! ls 
-    redir END 
-    return buflist 
-endfunction
+autocmd BufNewFile,BufRead *.c source $CODEMAKE/setcpp.vim
+autocmd BufNewFile,BufRead *.cc source $CODEMAKE/setcpp.vim
+autocmd BufNewFile,BufRead *.cpp source $CODEMAKE/setcpp.vim
+autocmd BufNewFile,BufRead *.py source $CODEMAKE/setpython.vim
+autocmd BufNewFile,BufRead *.kt source $CODEMAKE/setkotlin.vim
 
-function! ToggleQuickfixList()
-    for bufnum in map(filter(split(s:GetBufferList(), '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))') 
-        if bufwinnr(bufnum) != -1
-            "cclocall Run() <CR>
-            close
-            return
-        endif
-    endfor
-    let winnr = winnr()
-    if exists("g:toggle_list_copen_command")
-        exec(g:toggle_list_copen_command)
-    else
-        copen
-    endif
-    if winnr() != winnr
-        wincmd p
-    endif
-endfunction
-
-let $VIMRC = '$HOME/.config/nvim' "Change it to where your repo locates or create links of sources to the folder 
-autocmd BufNewFile,BufRead *.md source $VIMRC/editmd.vim
-autocmd BufNewFile,BufRead *.c source $VIMRC/setcpp.vim
-autocmd BufNewFile,BufRead *.cc source $VIMRC/setcpp.vim
-autocmd BufNewFile,BufRead *.cpp source $VIMRC/setcpp.vim
-autocmd BufNewFile,BufRead *.py source $VIMRC/setpython.vim
-autocmd BufNewFile,BufRead *.kt source $VIMRC/setkotlin.vim
