@@ -8,6 +8,7 @@ inoremap :doub :Double
 inoremap :str :String
 inoremap :byte :Byte
 inoremap :bool :Boolean
+inoremap .to .to()<LEFT><LEFT>
 inoremap .tint .toInt()
 inoremap .tlong .toLong()
 inoremap .tdoub .toDouble()
@@ -17,20 +18,16 @@ inoremap .tbool .toBoolean()
 inoremap .tli .toList()
 inoremap .tmli .toMutableList()
 
-let b:KtMakeTp=0
-nnoremap <C-F5> :call KtMakeTurn()<CR>
+let b:KtMakeTp=1
+if has('unix') 
+    nnoremap <F29> :let b:KtMakeTp = !b:KtMakeTp<CR>
+else 
+    nnoremap <C-F5> :let b:KtMakeTp = !b:KtMakeTp<CR>
+endif
 nnoremap <F5> :call CompileKt()<CR>
 inoremap <F5> <ESC>:call CompileKt()<CR>
+nnoremap <F6> :call RunKt()<CR>
 
-if has('nvim')
-    if has('unix')
-        nnoremap <F6> :term time ./%<.l<CR>i
-    else
-        nnoremap <F6> :term %<.l<CR>i
-    endif
-else
-    nnoremap <F6> :call RunKt()<CR>
-endif
 
 function CompileKt()
     if b:KtMakeTp==1
@@ -51,38 +48,35 @@ endfunction
 function RunKt()
     if b:KtMakeTp==1
         if has('unix')
-            exec "!time java -Xms1280m -Xmx128m -Xss64m -XX:+UseSerialGC -jar %<.jar"
+            if has('gui_running') || has('nvim')
+                exec "term time java -Xms128m -Xmx1280m -Xss64m -XX:+UseSerialGC -jar %<.jar"
+            else
+                exec "!time java -Xms128m -Xmx1280m -Xss64m -XX:+UseSerialGC -jar %<.jar"
+            endif
         else
-            exec "!java -Xms1280m -Xmx128m -Xss64m -XX:+UseSerialGC -jar %<.jar"
+            if has('gui_running') || has('nvim')
+                exec "term java -Xms128m -Xmx1280m -Xss64m -XX:+UseSerialGC -jar %<.jar"
+            else
+                exec "!java -Xms128m -Xmx1280m -Xss64m -XX:+UseSerialGC -jar %<.jar"
+            endif
         endif
     else
         if has('unix')
-            exec "!time ./%<.l"
+            if has('gui_running') || has('nvim')
+                exec "term time ./%<.l"
+            else
+                exec "!time ./%<.l"
+            endif
         else
-            exec "! %<.l"
+            if has('gui_running') || has('nvim')
+                exec "term %<.l"
+            else
+                exec "! %<.l"
+            endif
         endif
     endif
-endfunction
-
-function KtMakeTurn()
-    if b:KtMakeTp==1
-        if has('nvim')
-            if has('unix')
-                nnoremap <F6> :term time ./%<.l<CR>i
-            else
-                nnoremap <F6> :term %<.l<CR>i
-            endif
-        endif
-        let b:KtMakeTp=0
-    else
-        if has('nvim')
-            if has('unix')
-                nnoremap <F6> :term time java -Xms1280m -Xmx128m -Xss64m -XX:+UseSerialGC -jar %<.jar<CR>i
-            else
-                nnoremap <F6> :term java -Xms1280m -Xmx128m -Xss64m -XX:+UseSerialGC -jar %<.jar<CR>i
-            endif
-        endif
-        let b:KtMakeTp=1
+    if has('nvim')
+        call feedkeys("i")
     endif
 endfunction
 

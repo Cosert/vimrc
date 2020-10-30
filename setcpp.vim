@@ -11,30 +11,25 @@ endif
 
 nnoremap <F5> :make<CR>
 inoremap <F5> <ESC>:make<CR>
-
-if has('nvim')
-    if has('unix')
-        nnoremap <F6> :term time ./%<.l<CR>i
-    else
-        nnoremap <F6> :term %<.l<CR>i
-    endif
-elseif has('gui_running')
-    if has('unix')
-        nnoremap <F6> :term time ./%<.l<CR>
-    else
-        nnoremap <F6> :term %<.l<CR>
-    endif
-    nnoremap <C-F6> :call RunCpp()<CR>
-else
-    nnoremap <F6> :call RunCpp()<CR>
-    nnoremap <C-F6> :call RunCpp()<CR>
-endif
+nnoremap <F6> :call RunCpp()<CR>
+nnoremap <C-F6> :call RunCpp()<CR>
 
 function RunCpp()
-    if has('win32')
-        exec "! %<.l"
-    elseif has('unix')
-        exec "!time ./%<.l"
+    if has('gui_running') || has('nvim')
+        if has('unix')
+            exec "term time ./%<.l"
+        else
+            exec "term %<.l"
+        endif
+    else
+        if has('unix')
+            exec "!time ./%<.l"
+        else
+            exec "! %<.l"
+        endif
+    endif
+    if has('nvim')
+        call feedkeys("i")
     endif
 endfunction
 
