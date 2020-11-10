@@ -1,8 +1,9 @@
 set autowrite
 source $CODEMAKE/codemake.vim
 
-inoremap :<CR> <SPACE>: <CR>
+inoremap :<CR> : <CR><LEFT><RIGHT>
 inoremap "<CR> """ <CR>"""<ESC>O<Up><Down>
+inoremap (. ().
 
 let b:PyMakeTp=0
 if has('unix')
