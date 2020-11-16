@@ -88,11 +88,19 @@ tnoremap <C-L> <Right>
 inoremap <C-O> <BS>
 tnoremap <C-O> <BS>
 
-let $CODEMAKE = '$HOME/.config/nvim' "Change it to where your repo locates or create links of sources to the folder
+if has('nvim') && has('win32')
+    let $VIMRC='~\AppData'
+elseif has('nvim')
+    let $VIMRC='~/.config/nvim'
+elseif has('win32')
+    let $VIMRC=$VIM
+else
+    let $VIMRC='/usr/share/vim'
+endif
 
-autocmd BufNewFile,BufRead *.c source $CODEMAKE/setcpp.vim
-autocmd BufNewFile,BufRead *.cc source $CODEMAKE/setcpp.vim
-autocmd BufNewFile,BufRead *.cpp source $CODEMAKE/setcpp.vim
-autocmd BufNewFile,BufRead *.py source $CODEMAKE/setpython.vim
-autocmd BufNewFile,BufRead *.kt source $CODEMAKE/setkotlin.vim
+autocmd BufNewFile,BufRead *.c source $VIMRC/codemake/setcpp.vim
+autocmd BufNewFile,BufRead *.cc source $VIMRC/codemake/setcpp.vim
+autocmd BufNewFile,BufRead *.cpp source $VIMRC/codemake/setcpp.vim
+autocmd BufNewFile,BufRead *.py source $VIMRC/codemake/setpython.vim
+autocmd BufNewFile,BufRead *.kt source $VIMRC/codemake/setkotlin.vim
 
