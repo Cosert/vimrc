@@ -33,15 +33,39 @@ function! ToggleQuickfixList()
 endfunction
 
 inoremap <CR> <CR>/<BS>
-inoremap '' ''<LEFT>
-inoremap "" ""<LEFT>
-inoremap () ()<LEFT>
+inoremap ' ''<LEFT>
+inoremap '<CR> '
+inoremap '' ''
+inoremap '<SPACE> ' '
+inoremap '. '.'
+inoremap '( '('
+inoremap '\ '\'<LEFT>
+inoremap " ""<LEFT>
+inoremap "<CR> "
+inoremap "" ""
+inoremap "<SPACE> " "
+inoremap "\ "\"<LEFT>
+inoremap ( ()<LEFT>
+inoremap (<CR> (
+inoremap )<SPACE> )
+inoremap )( (
+inoremap )) )
+inoremap (<SPACE> (
+inoremap () ()
+inoremap (, (,)<LEFT><LEFT>
 inoremap (' ('')<LEFT><LEFT>
 inoremap (" ("")<LEFT><LEFT>
-inoremap [] []<LEFT>
+inoremap [ []<LEFT>
+inoremap [<CR> [
+inoremap ]<SPACE> ]
+inoremap ][ [
+inoremap ]] ]
+inoremap [<SPACE> [
+inoremap [] []
 inoremap [' ['']<LEFT><LEFT>
 inoremap [" [""]<LEFT><LEFT>
 inoremap <> <><LEFT>
+inoremap << <<
 inoremap { { <CR>} <ESC>O<LEFT><RIGHT>
 inoremap ({ () { <CR>} <ESC>O<LEFT><RIGHT>
 inoremap } {}<LEFT>

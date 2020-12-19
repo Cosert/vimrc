@@ -1,22 +1,54 @@
 set autowrite
 source $VIMRC/codemake/codemake.vim
 
-inoremap "<CR> """ <CR>"""<ESC>O<Up><Down>
+inoremap (<TAB> ( <CR>) <ESC>O<LEFT><RIGHT>
+inoremap "<TAB> """ <CR>"""<ESC>O<UP><DOWN>
+
 inoremap :int :Int
 inoremap :long :Long
-inoremap :doub :Double
-inoremap :str :String
+inoremap :double :Double
+inoremap :dob :Double
+inoremap :string :String
+inoremap :strr :String
 inoremap :byte :Byte
 inoremap :bool :Boolean
+
+inoremap .. ..
+
+"inoremap .array .arrayOf()<LEFT>
+"inoremap .list .listOf()<LEFT>
+"inoremap .sli .listOf()<LEFT>
+"inoremap .mulist .mutableListOf()<LEFT>
+"inoremap .mli .mutableListOf()<LEFT>
+
 inoremap .to .to()<LEFT><LEFT>
 inoremap .tint .toInt()
 inoremap .tlong .toLong()
-inoremap .tdoub .toDouble()
-inoremap .tstr .toString()
+inoremap .tdouble .toDouble()
+inoremap .tdob .toDouble()
+inoremap .tstring .toString()
+inoremap .tstrr .toString()
 inoremap .tbyte .toByte()
 inoremap .tbool .toBoolean()
-inoremap .tli .toList()
+inoremap .tlist .toList()
+inoremap .tsli .toList()
+inoremap .tmulist .toMutablelist()
 inoremap .tmli .toMutableList()
+
+inoremap .spli<SPACE> .split(" ")
+inoremap .mp{ .map{}<LEFT>
+inoremap .mp} .map{}<LEFT>
+inoremap .mpit .map{it.}<LEFT>
+inoremap .mpint .map{it.toInt()}
+inoremap .mplong .map{it.toLong()}
+inoremap .mpdouble .map{it.toDouble()}
+inoremap .mpdob .map{it.toDouble()}
+inoremap .mpstring .map{it.toString()}
+inoremap .mpstrr .map{it.toString()}
+inoremap .mpbyte .map{it.toByte()}
+
+inoremap ${ ${}<LEFT>
+inoremap $} ${}<LEFT>
 
 let g:KtMakeTp=1
 if has('unix') 
@@ -38,7 +70,7 @@ function CompileKt()
     
     if g:KtMakeTp==0 && has('win32')
         !mv %<.exe %<.l
-    elseif w:KtMakeTp==0
+    elseif g:KtMakeTp==0
         !mv %<.kexe %<.l
     endif
 endfunction

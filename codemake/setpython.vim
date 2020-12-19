@@ -2,7 +2,7 @@ set autowrite
 source $VIMRC/codemake/codemake.vim
 
 inoremap :<CR> : <CR><LEFT><RIGHT>
-inoremap "<CR> """ <CR>"""<ESC>O<Up><Down>
+inoremap "<TAB> """ <CR>"""<ESC>O<Up><Down>
 inoremap (. ().
 
 let b:PyMakeTp=0
