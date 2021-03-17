@@ -3,9 +3,9 @@ source $VIMRC/codemake/codemake.vim
 packadd termdebug
 
 if &filetype == 'c'
-	set makeprg=gcc\ %\ -o\ %<.l\ -g\ -std=c11\ -O2\ -pthread\ -Wall\ -Wextra\ -Wconversion\ -Wfatal-errors\ -DLOCAL_TEST
+	set makeprg=gcc\ %\ -o\ %<.run\ -g\ -std=c11\ -O2\ -pthread\ -Wall\ -Wextra\ -Wconversion\ -Wfatal-errors\ -DLOCAL_TEST
 else
-	set makeprg=g++\ %\ -o\ %<.l\ -g\ -std=c++17\ -O3\ -pthread\ -Wall\ -Wextra\ -Wconversion\ -Wfatal-errors\ -DLOCAL_TEST
+	set makeprg=g++\ %\ -o\ %<.run\ -g\ -std=c++17\ -O3\ -pthread\ -Wall\ -Wextra\ -Wconversion\ -Wfatal-errors\ -DLOCAL_TEST
 endif
 
 nnoremap <F5> :make<CR>
@@ -16,15 +16,15 @@ nnoremap <C-F6> :call RunCpp()<CR>
 function RunCpp()
     if has('gui_running') || has('nvim')
         if has('unix')
-            exec "term time ./%<.l"
+            exec "term time ./%<.run"
         else
-            exec "term %<.l"
+            exec "term %<.run"
         endif
     else
         if has('unix')
-            exec "!time ./%<.l"
+            exec "!time ./%<.run"
         else
-            exec "! %<.l"
+            exec "! %<.run"
         endif
     endif
     if has('nvim')
@@ -32,6 +32,6 @@ function RunCpp()
     endif
 endfunction
 
-nnoremap <F7> : Termdebug %<.l <CR>
+nnoremap <F7> : Termdebug %<.run <CR>
 "nnoremap <F8> : call FormatCode()<CR>
 

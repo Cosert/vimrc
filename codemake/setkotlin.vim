@@ -69,7 +69,7 @@ function CompileKt()
     make
     
     if g:KtMakeTp==0 && has('win32')
-        !mv %<.exe %<.l
+        !move %<.exe %<.l
     elseif g:KtMakeTp==0
         !mv %<.kexe %<.l
     endif
@@ -93,15 +93,15 @@ function RunKt()
     else
         if has('unix')
             if has('gui_running') || has('nvim')
-                exec "term time ./%<.l"
+                exec "term time ./%<.run"
             else
-                exec "!time ./%<.l"
+                exec "!time ./%<.run"
             endif
         else
             if has('gui_running') || has('nvim')
-                exec "term %<.l"
+                exec "term %<.run"
             else
-                exec "! %<.l"
+                exec "! %<.run"
             endif
         endif
     endif

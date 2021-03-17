@@ -66,27 +66,55 @@ set autoindent
 "set cursorline
 set gcr+=a:blinkon0
 
-set guioptions-=m
-set guioptions-=T
-set guioptions-=r
-set guioptions-=l
-set guioptions-=b
+if has('gui_running')
+    if has('win32')
+        set guifont=Consolas:h17
+        set enc=utf-8
+        set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+        set langmenu=zh_CN.UTF-8
+        source $VIMRUNTIME/delmenu.vim
+        source $VIMRUNTIME/menu.vim
+    elseif has('unix')
+        set guifont=Consolas\ 16
+    elseif has('mac')
+        set guifont=Monaco\ 12
+    endif
+
+    if has("win64")
+        au GUIEnter * call libcallnr("vimtweak64.dll", "SetAlpha", 210)
+        map <F11> :call libcallnr("gvimfullscreen.dll.x64", "ToggleFullScreen", 0)<CR>
+    elseif has("win32")
+        au GUIEnter * call libcallnr("vimtweak32.dll", "SetAlpha", 210)
+        map <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
+    endif
+
+    colorscheme torte
+
+    set lines=40 columns=80
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=r
+    set guioptions-=l
+    set guioptions-=b
+endif
 
 noremap j gj
 noremap gj j
 noremap gk k
 noremap k gk
 noremap x i
-inoremap <C-K> <Up>
-inoremap <C-J> <Down>
+inoremap <C-K> <C-O>gk
+inoremap <C-J> <C-O>gj
 inoremap <C-H> <Left>
 inoremap <C-L> <Right>
-tnoremap <C-K> <Up>
-tnoremap <C-J> <Down>
+tnoremap <C-K> <C-O>gk
+tnoremap <C-J> <C-O>gj
 tnoremap <C-H> <Left>
 tnoremap <C-L> <Right>
 inoremap <C-O> <BS>
 tnoremap <C-O> <BS>
+inoremap <C-Q> <C-O>
+tnoremap <C-Q> <C-O>
 
 if has('nvim') && has('win32')
     let $VIMRC='~\AppData'

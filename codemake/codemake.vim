@@ -39,6 +39,7 @@ inoremap '' ''
 inoremap '<SPACE> ' '
 inoremap '. '.'
 inoremap '( '('
+inoremap ') ')'
 inoremap '\ '\'<LEFT>
 inoremap " ""<LEFT>
 inoremap "<CR> "
