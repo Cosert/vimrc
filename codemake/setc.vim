@@ -3,9 +3,9 @@ source $VIMRC/codemake/codemake.vim
 packadd termdebug
 
 if &filetype == 'c'
-	set makeprg=gcc\ %\ -o\ %<.run\ -g\ -std=c11\ -O2\ -pthread\ -Wall\ -Wextra\ -Wconversion\ -Wfatal-errors\ -DLOCAL_TEST
+	set makeprg=gcc\ %\ -o\ %<.run\ -g\ -std=c11\ -O2\ -pthread\ -Wall\ -Wextra\ -Wconversion\ -Wfatal-errors\ -DLOCAL
 else
-	set makeprg=g++\ %\ -o\ %<.run\ -g\ -std=c++17\ -O3\ -pthread\ -Wall\ -Wextra\ -Wconversion\ -Wfatal-errors\ -DLOCAL_TEST
+	set makeprg=g++\ %\ -o\ %<.run\ -g\ -std=c++17\ -O2\ -pthread\ -Wall\ -Wextra\ -Wconversion\ -Wfatal-errors\ -DLOCAL
 endif
 
 nnoremap <F5> :make<CR>

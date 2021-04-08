@@ -126,9 +126,9 @@ else
     let $VIMRC='/usr/share/vim'
 endif
 
-autocmd BufNewFile,BufRead *.c source $VIMRC/codemake/setcpp.vim
-autocmd BufNewFile,BufRead *.cc source $VIMRC/codemake/setcpp.vim
-autocmd BufNewFile,BufRead *.cpp source $VIMRC/codemake/setcpp.vim
+autocmd BufNewFile,BufRead *.c source $VIMRC/codemake/setc.vim
+autocmd BufNewFile,BufRead *.cc source $VIMRC/codemake/setc.vim
+autocmd BufNewFile,BufRead *.cpp source $VIMRC/codemake/setc.vim
 autocmd BufNewFile,BufRead *.py source $VIMRC/codemake/setpython.vim
 autocmd BufNewFile,BufRead *.kt source $VIMRC/codemake/setkotlin.vim
 
